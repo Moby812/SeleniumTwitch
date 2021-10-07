@@ -1,5 +1,6 @@
+
 public class main {
-    public static void main(String[] args) throws Exception {
-        test.bmpTest();
+    public static void main(String[] args)  {
+
     }
 }
