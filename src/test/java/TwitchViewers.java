@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,6 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 public class TwitchViewers {
     public static void main(String[] args) {
+        List<Connects> connectsList = Connects.listConnect();
+        Proxy proxy = new Proxy();
+
         List<Users> usersList = Users.listUser();
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\PParamonov\\IdeaProjects\\SeleniumTwitch\\drivers\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
@@ -24,8 +28,14 @@ public class TwitchViewers {
 
         for (int i = 0; i < Options.count; i++) {
             System.out.println("Выполняется подключение зрителем: " + (i + 1));
+            proxy.setHttpProxy(connectsList.get(i).hostPort);
+            options.setCapability("proxy", proxy);
 
             drivers.add(new ChromeDriver(options));
+            drivers.get(i).get("http://api.ipify.org/");
+
+
+
             drivers.get(i).get(Options.url);
             drivers.get(i).manage().timeouts().implicitlyWait(5, TimeUnit.MINUTES);
             System.out.println("Открыт линк: " + Options.url);
